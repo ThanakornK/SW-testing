@@ -17,7 +17,7 @@ public class Main {
 
         // check negative number
         if ((Xmax < 0) || (Xmin < 0) || (Ymax < 0) || (Ymin < 0)) {
-            System.out.printf("Input should't be negative number");
+            System.out.printf("Input shouldn't be negative number");
             System.exit(0);
         }
 

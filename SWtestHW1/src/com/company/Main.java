@@ -16,17 +16,8 @@ public class Main {
         int Ymin = sc.nextInt();
 
         // check negative number
-        if (Xmax < 0 ) {
-            System.out.printf("Xmax should't be negative number");
-            System.exit(0);
-        }else if (Xmin < 0) {
-            System.out.printf("Xmin should't be negative number");
-            System.exit(0);
-        }else if (Ymax < 0) {
-            System.out.printf("Ymax should't be negative number");
-            System.exit(0);
-        }else if (Ymin < 0) {
-            System.out.printf("Ymin should't be negative number");
+        if ((Xmax < 0) || (Xmin < 0) || (Ymax < 0) || (Ymin < 0)) {
+            System.out.printf("Input should't be negative number");
             System.exit(0);
         }
 
@@ -42,7 +33,7 @@ public class Main {
         System.out.println("Choose a test approach : 1 = BVA | 2 = Robustness | 3 = Worse case | 4 = Worse case for robustness");
         int approch  = sc.nextInt();
 
-        // validate text approch input
+        // validate text approach input
         if ( (0 <= approch) || (approch > 4)) {
             System.out.printf("Error test approach input");
             System.exit(0);

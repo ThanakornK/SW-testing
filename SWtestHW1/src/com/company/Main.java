@@ -16,7 +16,7 @@ public class Main {
         int Ymin = sc.nextInt();
 
         // check negative number
-        if ((Xmax < 0) || (Xmin < 0) || (Ymax < 0) || (Ymin < 0)) {
+        if ((Xmax > 0) && (Xmin >= 0) && (Ymax > 0) && (Ymin >= 0)) {
             System.out.printf("Input shouldn't be negative number");
             System.exit(0);
         }
@@ -31,10 +31,10 @@ public class Main {
         }
 
         System.out.println("Choose a test approach : 1 = BVA | 2 = Robustness | 3 = Worse case | 4 = Worse case for robustness");
-        int approch  = sc.nextInt();
+        int approach  = sc.nextInt();
 
         // validate text approach input
-        if ( (0 <= approch) || (approch > 4)) {
+        if ((0 <= approach) && (approach < 4)) {
             System.out.printf("Error test approach input");
             System.exit(0);
         }
@@ -64,7 +64,7 @@ public class Main {
         System.out.printf("\n");
 
         // Test case print
-        if(approch == 1 ){ // สร้าง test case สำหรับ วิธี BVA
+        if(approach == 1 ){ // สร้าง test case สำหรับ วิธี BVA
             System.out.println("There are all test cases as follows:(X,Y) ");
             System.out.println("(" +Xmin+ "," + (Ymax + Ymin) / 2 + ")");//  ค่า Y ถ้ามี ทศนิยมจะปัดลง เพราะเป็นตัวแปร int
             graph[1][(sizeOfY / 2)+1] = "o";
@@ -93,7 +93,7 @@ public class Main {
             System.out.printf("(%d,%d)\n",(Xmax + Xmin) / 2, Ymax);
             graph[(sizeOfX / 2)+1][sizeOfY+1] = "o";
         }
-        else if(approch == 2 ){
+        else if(approach == 2 ){
             System.out.println("There are all test cases as follows:(X,Y) ");
             System.out.printf("(%d,%d)",Xmin-1, (Ymax + Ymin) / 2);
             graph[0][(sizeOfY / 2)+1] = "o";
@@ -134,7 +134,7 @@ public class Main {
             System.out.printf("(%d,%d)\n",(Xmax + Xmin) / 2, Ymax+1);
             graph[(sizeOfX / 2)+1][sizeOfY+2] = "o";
         }
-        else if(approch == 3){
+        else if(approach == 3){
             System.out.println("There are all test cases as follows:(X,Y) ");
             System.out.printf("(%d,%d)\n",Xmin, Ymin);
             graph[1][1] = "o";
@@ -212,7 +212,7 @@ public class Main {
             graph[(sizeOfX / 2)+1][sizeOfY+1] = "o";
 
         }
-        else if(approch == 4){
+        else if(approach == 4){
             System.out.println("There are all test cases as follows:(X,Y) ");
             System.out.printf("(%d,%d)\n",Xmin-1, Ymin-1);
             graph[0][0] = "o";

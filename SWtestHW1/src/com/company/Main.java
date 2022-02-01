@@ -1,23 +1,45 @@
 package com.company;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.lang.Math;
-public class Main {
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
 
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Press Xmax");
-        int Xmax = sc.nextInt();
-        System.out.println("Press Xmin");
-        int Xmin = sc.nextInt();
-        System.out.println("Press Ymax");
-        int Ymax = sc.nextInt();
-        System.out.println("Press Ymin");
-        int Ymin = sc.nextInt();
+        List<String> inputs = new ArrayList<String>();
+        String[] inputsName = {"Xmax", "Xmin", "Ymax", "Ymin"};
+        for (int i = 0; i < 5; i++) {
+            System.out.printf("Press %d",inputsName[i]);
+            inputs.add(sc.nextLine());
+        }
+        try {
+            int checkType;
+            for (String str: inputs) {
+                checkType = Integer.parseInt(str);
+            }
+        }catch (NumberFormatException e){
+            System.out.println("Input should be integer");
+        }
 
-        // check negative number
-        if ((Xmax > 0) && (Xmin >= 0) && (Ymax > 0) && (Ymin >= 0)) {
+        int Xmax = Integer.parseInt(inputs.get(0));
+        int Xmin = Integer.parseInt(inputs.get(1));
+        int Ymax = Integer.parseInt(inputs.get(2));
+        int Ymin = Integer.parseInt(inputs.get(3));
+        int approach = Integer.parseInt(inputs.get(4));
+
+
+        // check negative number and range
+        if ((Xmax < 0) && (Xmin < 0) && (Ymax < 0) && (Ymin < 0)) {
             System.out.printf("Input shouldn't be negative number");
+            System.exit(0);
+        }else if ((Xmax > 200) && (Xmin > 200) && (Ymax > 200) && (Ymin > 200)){
+            System.out.printf("Input out of range");
             System.exit(0);
         }
 
@@ -31,11 +53,11 @@ public class Main {
         }
 
         System.out.println("Choose a test approach : 1 = BVA | 2 = Robustness | 3 = Worse case | 4 = Worse case for robustness");
-        int approach  = sc.nextInt();
+//        int approach  = sc.nextInt();
 
         // validate text approach input
         if ((0 <= approach) && (approach < 4)) {
-            System.out.printf("Error test approach input");
+            System.out.printf("Input out of range");
             System.exit(0);
         }
 
@@ -381,4 +403,59 @@ public class Main {
 
 
     }
+
+
+    public void readFile(TestCaseObj[] tco) {
+        try {
+            File myObj = new File("input.txt");
+            Scanner myReader = new Scanner(myObj);
+            int index = 0;
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                String[] dataArr = data.split(",");
+
+                int[] dataInputs = {Integer.parseInt(dataArr[1]),Integer.parseInt(dataArr[2]),Integer.parseInt(dataArr[3]),Integer.parseInt(dataArr[4])};
+
+                TestCaseObj t = new TestCaseObj(Integer.parseInt(dataArr[0]),dataInputs,dataArr[5]);
+                tco[index] = t;
+                index++;
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            System.out.println("Input should be integer");
+            e.printStackTrace();
+        }
+    }
+    
+    public void writeFile(TestCaseObj[] tco) {
+        try {
+            File myObj = new File("filename.txt");
+            myObj.createNewFile();
+
+            FileWriter myWriter = new FileWriter("filename.txt");
+            myWriter.write("TestCaseNumber,(Xmax,Xmin) (Ymax,Ymin), Expected Result, Actual Result, Error Code\n");
+            myWriter.write("0 = Running Success | 1 =  Input Out Of Range | 2 = Input Should Be Integer | 3 = Xmax Should Be More Than Xmin | 4 = Ymax Should Be More Than Ymin\n");
+            for (TestCaseObj tc: tco) {
+                //0,('a','b') (0,0),invalid type
+                myWriter.write(tc.getTestCaseNum() + ",("
+                        + tc.getInputs()[0] + "," + tc.getInputs()[1] + ") "
+                        + "(" + tc.getInputs()[2] + "," + tc.getInputs()[3] + "),"
+                        + tc.getExpected() + "," + tc.getActual() + "," + tc.getErrCode() + "\n"
+                );
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+
 }
+
+
+
+

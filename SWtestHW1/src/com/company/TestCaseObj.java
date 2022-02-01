@@ -5,12 +5,12 @@ import java.util.List;
 
 public class TestCaseObj {
     private int testCaseNum;
-    private int[] inputs;
+    private String[] inputs;
     private String expected;
     private String actual;
     private int errCode;
 
-    public TestCaseObj(int testCaseNum, int[] inputs, String expected) {
+    public TestCaseObj(int testCaseNum, String[] inputs, String expected) {
         this.testCaseNum = testCaseNum;
         this.inputs = inputs;
         this.expected = expected;
@@ -20,7 +20,7 @@ public class TestCaseObj {
         return testCaseNum;
     }
 
-    public int[] getInputs() {
+    public String[] getInputs() {
         return inputs;
     }
 
@@ -40,7 +40,7 @@ public class TestCaseObj {
         this.testCaseNum = testCaseNum;
     }
 
-    public void setInputs(int[] inputs) {
+    public void setInputs(String[] inputs) {
         this.inputs = inputs;
     }
 
@@ -55,4 +55,5 @@ public class TestCaseObj {
     public void setActual(String actual) {
         this.actual = actual;
     }
+
 }

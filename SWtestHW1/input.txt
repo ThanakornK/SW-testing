@@ -1,0 +1,12 @@
+0,a,b,0,0,1,Input Should Be Integer
+1,-1,-1,0,0,1,Input Out Of Range
+2,201,201,1,1,1,Input Out Of Range
+3,200,2,10,0,0,Approach Input Out Of Range
+4,200,2,10,0,5,Approach Input Out Of Range
+5,200,0,200,0,1,Running Success
+6,9,9,4,4,1,Input Out Of Range
+7,8,0,8,0,1,Running Success
+8,4,8,8,0,1,Xmax should be more than Xmin
+9,8,0,4,8,1,Ymax should be more than Ymin
+10,2.5,8,4,2,1,Input Should Be Integer
+11,7.5,2,8,0,1,Input Should Be Integer

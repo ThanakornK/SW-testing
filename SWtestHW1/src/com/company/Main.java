@@ -11,8 +11,12 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<TestCaseObj> testCaseObjs = new ArrayList<>();
         final long startTime = System.currentTimeMillis();
-        int successCase = 0;
-        int failCase = 0;
+        String tester;
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter tester name:");
+
+        tester = sc.nextLine();
 
         try {
             readFile(testCaseObjs);
@@ -30,7 +34,6 @@ public class Main {
             }catch (NumberFormatException e) {
                 tc.setActual("Input Should Be Integer");
                 tc.setErrCode(3);
-                failCase++;
                 continue;
             }
 
@@ -42,15 +45,14 @@ public class Main {
 
 
             // check negative number and range
-            if ((Xmax < 0) && (Xmin < 0) && (Ymax < 0) && (Ymin < 0)) {
+            if (!((Xmax > 0) && (Xmin >= 0) && (Ymax > 0) && (Ymin >= 0))) {
                 tc.setActual("Input Out Of Range");
                 tc.setErrCode(1);
-                failCase++;
                 continue;
-            }else if ((Xmax > 200) && (Xmin > 200) && (Ymax > 200) && (Ymin > 200)){
+
+            }else if (!((Xmax <= 200) && (Xmin <= 200) && (Ymax <= 200) && (Ymin <= 200))){
                 tc.setActual("Input Out Of Range");
                 tc.setErrCode(1);
-                failCase++;
                 continue;
             }
 
@@ -58,20 +60,17 @@ public class Main {
             if (Xmax <= Xmin) {
                 tc.setActual("Xmax Should Be More Than Xmin");
                 tc.setErrCode(4);
-                failCase++;
                 continue;
             }else if (Ymax <= Ymin) {
                 tc.setActual("Ymax Should Be More Than Ymin");
                 tc.setErrCode(5);
-                failCase++;
                 continue;
             }
 
             // validate text approach input
-            if ((0 <= approach) && (approach < 4)) {
+            if ((0 >= approach) || (approach > 4)) {
                 tc.setActual("Approach Input Out Of Range");
                 tc.setErrCode(2);
-                failCase++;
                 continue;
             }
 
@@ -400,13 +399,12 @@ public class Main {
 
             tc.setActual("Running Success");
             tc.setErrCode(0);
-            successCase++;
 
         }
         final long endTime = System.currentTimeMillis();
 
-        writeFile(testCaseObjs, successCase, failCase, startTime, endTime);
-
+        writeFile(testCaseObjs, startTime, endTime, tester);
+        System.out.println("Test complete. please look result at logFile.txt");
     }
 
 
@@ -432,7 +430,9 @@ public class Main {
         }
     }
     
-    public static void writeFile(ArrayList<TestCaseObj> tco, int successCase, int failCase, long startTime, long endTime) {
+    public static void writeFile(ArrayList<TestCaseObj> tco, long startTime, long endTime, String tester) {
+        int successCase = 0;
+        int failCase = 0;
         try {
             File myObj = new File("logFile.txt");
             myObj.createNewFile();
@@ -442,7 +442,11 @@ public class Main {
             myWriter.write("0 = Running Success | 1 =  Input Out Of Range | 2 = Approach Input Out Of Range | 3 = Input Should Be Integer | 4 = Xmax Should Be More Than Xmin | 5 = Ymax Should Be More Than Ymin\n");
             myWriter.write("\n");
             for (TestCaseObj tc: tco) {
-                //0,('a','b') (0,0),invalid type
+                if (tc.getExpected().equals(tc.getActual())) {
+                    successCase++;
+                }else {
+                    failCase++;
+                }
                 myWriter.write(tc.getTestCaseNum() + ",("
                         + tc.getInputs()[0] + "," + tc.getInputs()[1] + ") "
                         + "(" + tc.getInputs()[2] + "," + tc.getInputs()[3] + ")," + tc.getInputs()[4] + ","
@@ -451,7 +455,8 @@ public class Main {
             }
             myWriter.write("\n");
             myWriter.write("Start time: " + startTime + " milliseconds" +", End time: " + endTime + " milliseconds" +", Total time: " + (endTime - startTime) + " milliseconds" + "\n");
-            myWriter.write("Success Cases: " + successCase + ", Fail Cases: " + failCase);
+            myWriter.write("Success Cases: " + successCase + ", Fail Cases: " + failCase + "\n");
+            myWriter.write("Tester: " + tester);
             myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
